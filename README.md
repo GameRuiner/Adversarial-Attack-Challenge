@@ -1,5 +1,12 @@
 # Adversarial Attack Challenge
 
+2025 Adversarial Attack Challenge for Secure Face Recognition. This project is designed to advance research in adversarial robustness and real-world security applications by testing models in two distinct tracks:
+
+- **Detection Track**: Identify whether a face image is adversarial or clean.
+- **Resilience Track**: Train a robust face recognition model that maintains high accuracy even under adversarial attacks.
+
+For full details about challenge, visit organizers website https://www.youverse.id/adversarial.
+
 ## 📦 Getting the Data
 
 To extract the dataset from the `.7z` archive, make sure you have `p7zip` installed.
