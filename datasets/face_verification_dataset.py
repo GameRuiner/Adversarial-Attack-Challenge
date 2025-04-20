@@ -18,7 +18,7 @@ class FaceVerificationDataset(Dataset):
         with open(pairs_file, 'r') as f:
             for line in f:
                 img1, img2, label = line.strip().split()
-                self.pairs.append((img1, img2. int(label)))
+                self.pairs.append((img1, img2, int(label)))
     
     def __len__(self):
         return len(self.pairs)
