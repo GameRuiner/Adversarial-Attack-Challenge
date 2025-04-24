@@ -3,7 +3,7 @@ from PIL import Image
 from torch.utils.data import Dataset
 
 
-class FaceVerificationDataset(Dataset):
+class CleanFacePairDataset(Dataset):
     def __init__(self, pairs_file, image_dir, transform=None):
         """
         Args:

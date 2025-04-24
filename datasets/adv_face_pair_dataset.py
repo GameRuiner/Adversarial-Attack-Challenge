@@ -3,12 +3,11 @@ from PIL import Image
 from torch.utils.data import Dataset
 from torchvision import transforms
 
-class FacePairDataset(Dataset):
+class AdvFacePairDataset(Dataset):
     def __init__(self, root_dir, transform=None):
         self.root_dir = root_dir
         self.pair_dirs = [os.path.join(root_dir, d) for d in os.listdir(root_dir)]
         self.transform = transform or transforms.Compose([
-            transforms.Resize((112, 112)),
             transforms.ToTensor(),
         ])
 
