@@ -32,7 +32,7 @@ sudo docker run -d \
   "$submission_name"
 
 echo "Wait few seconds"
-sleep 5s
+sleep 5
 
 echo "Check Container is running"
 sudo docker ps
