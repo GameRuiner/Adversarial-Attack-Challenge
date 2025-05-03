@@ -16,7 +16,7 @@ echo "Running Docker Container"
 sudo docker run -d -v $PWD:$dk_mnt --name $submission_name_container -p $PORT_N_D:$PORT_N_M $submission_name
 
 echo "Wait few seconds"
-sleep 1s 
+sleep 1
 
 echo "Check Container is running"
 sudo docker ps
