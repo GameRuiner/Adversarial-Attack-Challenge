@@ -1,0 +1,6 @@
+albumentations==2.0.6
+numpy==2.2.5
+scikit_learn==1.6.1
+torch==2.6.0
+torchvision==0.21.0
+tqdm==4.67.1
