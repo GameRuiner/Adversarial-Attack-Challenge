@@ -2,12 +2,6 @@ import os
 from PIL import Image
 from torch.utils.data import Dataset, Subset, DataLoader
 from torchvision import transforms
-from torchvision.models import mobilenet_v2, MobileNet_V2_Weights
-import torch
-import torch.nn as nn
-import torch.optim as optim
-from sklearn.metrics import accuracy_score
-from tqdm import tqdm
 import pandas as pd
 
 
