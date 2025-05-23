@@ -10,7 +10,6 @@ import albumentations as A
 from albumentations.pytorch import ToTensorV2
 from tqdm import tqdm
 from sklearn.metrics import accuracy_score, roc_auc_score, confusion_matrix
-import random
 import re
 
 # ==============================

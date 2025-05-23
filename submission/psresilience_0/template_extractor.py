@@ -1,33 +1,37 @@
 """"Module to extract template from the deep model"""
+import torch
 import numpy as np
 import cv2
-
+from model import SiameseNetwork
+import albumentations as A
+from albumentations.pytorch import ToTensorV2
+from face_utils import detect_face_haar 
 
 class TemplateExtractor:
     """"Class to extract template data from face images"""
 
-    def __init__(self):
+    def __init__(self, model_path="fr_pgd3.pth"):
         """
         Implement custom initialization here
         """
-        self.template_shape = 512
-        self.model_path = ""
-        self.image_width = 224
-        self.image_height = 224
-        self.image_channels = 3
+        self.device = torch.device("mps" if torch.backends.mps.is_available() else "cuda" if torch.cuda.is_available() else "cpu")
+        self.model = SiameseNetwork().to(self.device)
+        self.model.load_state_dict(torch.load(model_path, map_location=self.device))
+        self.model.eval()
+        self.transform = A.Compose([
+            A.Resize(112, 112),
+            A.Normalize(),
+            ToTensorV2()
+        ])
 
 
     @staticmethod
     def compare(reference, probe):
         """
-            Method to compare 2 feature templates. Dot product by default.
-            Input - 2 numpy arrays.
-            Returns normalised similarity value float: 0 - nonmatch, 1 - match
+        Compares two already L2-normalized vectors (as returned by the model).
+        Returns cosine similarity in range [-1, 1].
         """
-
-        dot_product = np.dot(probe.flatten(), reference.flatten())
-        dot_product_normalized = dot_product / np.linalg.norm(probe.flatten()) / np.linalg.norm(reference.flatten())
-        return dot_product_normalized
+        return float(np.dot(reference.flatten(), probe.flatten()))
 
 
     def extract(self, image_path):
@@ -39,8 +43,13 @@ class TemplateExtractor:
        
         #read image and extract template
         img = cv2.imread(image_path)
-
-        # Placeholder random array generation
-        template = np.random.rand(self.template_shape)
-        template = template / np.linalg.norm(template)
-        return template
+        if img is None:
+            raise FileNotFoundError(f"Could not load image at path: {image_path}")
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        img = detect_face_haar(img)
+        if self.transform:
+            img_t = self.transform(image=img)['image']
+        img_t = img_t.unsqueeze(0).to(self.device)
+        with torch.no_grad():
+            embedding = self.model.forward_once(img_t)
+        return embedding.squeeze(0).cpu().numpy()

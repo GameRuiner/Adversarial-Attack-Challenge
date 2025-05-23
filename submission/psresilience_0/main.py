@@ -5,9 +5,7 @@
 import uvicorn
 from fastapi import FastAPI
 import numpy as np
-import cv2
 import json
-import time
 
 from template_extractor import TemplateExtractor
 extractor = TemplateExtractor()
